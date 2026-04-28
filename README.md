@@ -1,4 +1,47 @@
-这个系统主要是通过训练openmv来识别道路标志图片从而输出标签给51单片机
-而51单片机通过识别标签来控制syn6288进行发声
-This system primarily functions by training an OpenMV module to recognize road sign images and subsequently output corresponding labels to a 51-series microcontroller.
-The 51-series microcontroller, in turn, interprets these labels to control a SYN6288 module, thereby generating audio output.
+# 基于 OpenMV H7 的交通标志识别与语音播报系统
+
+## 项目简介
+本项目基于 OpenMV H7 实现交通标志识别，并通过 UART 串口将识别结果发送给 51 单片机。51 单片机根据不同标签控制 SYN6288 语音合成模块，实现对应交通标志的中文语音播报。
+
+该系统采用边缘端本地识别方式，无需依赖云端算力，适合作为低成本交通辅助提醒、视障出行辅助和嵌入式视觉识别教学原型。
+
+## 系统架构
+交通标志图像
+    ↓
+OpenMV H7 视觉识别
+    ↓ UART
+51 单片机逻辑判断
+    ↓ UART
+SYN6288 语音合成模块
+    ↓
+扬声器播报
+
+#目录结构
+├── openmv/
+│   ├── main.py          # OpenMV 端识别与串口发送程序
+│   ├── labels.txt       # 模型标签文件
+│   └── trained.tflite   # 训练后的模型文件
+│
+├── 51/HELLO/
+│   ├── syn6288.c        # 51 单片机主程序与 SYN6288 控制逻辑
+│   ├── syn6288.h        # SYN6288 相关函数声明
+│   ├── uart.c           # 串口发送函数
+│   ├── delay.c          # 延时函数
+│   └── Hello.uvproj     # Keil 工程文件
+│
+└── README.md
+
+#模块连接
+OpenMV TX 接 51 单片机 RXD
+51 单片机 TXD 接 SYN6288 RXD
+各模块 GND 需要共地
+SYN6288 输出端连接扬声器
+
+#后续优化方向
+设计更稳定的 UART 帧协议，加入帧头、标志 ID、置信度和校验位
+增加识别置信度过滤，减少误触发
+增加标签冷却时间和播报优先级
+使用 STM32 或 ESP32 替换 51 单片机
+引入 FreeRTOS，实现接收、判断、播报等任务拆分
+基于 MQTT 上传识别日志，实现物联网扩展
+增加系统接线图、实物图和演示视频
