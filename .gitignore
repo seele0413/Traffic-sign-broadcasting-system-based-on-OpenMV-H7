@@ -1,0 +1,20 @@
+# Keil build outputs
+*.OBJ
+*.LST
+*.M51
+*.hex
+*.lnp
+*.build_log.htm
+*.uvgui
+*.uvgui.*
+*.uvopt
+*.bak
+
+# Temporary files
+*.tmp
+*.log
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
