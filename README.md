@@ -69,8 +69,8 @@
 
 ### 3. 模块连接
 
-- OpenMV TX（uart3，P3） 接 51 单片机 RXD  p（30）
-- 51 单片机 TXD（p31） 接 SYN6288 RXD
+- OpenMV TX（uart3，P3） 接 51 单片机 RXD  （P30）
+- 51 单片机 TXD（P31） 接 SYN6288 RXD
 - 各模块 GND 需要共地
 - SYN6288 输出端连接扬声器
 - 均连接5v电源
